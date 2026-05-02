@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAllNotes, getAllTags } from "../utils/loadNotes";
+import SpotlightCard from "../components/SpotlightCard";
 
 export default function Notes() {
+  const navigate = useNavigate();
   const allNotes = useMemo(() => getAllNotes(), []);
   const allTags = useMemo(() => getAllTags(), []);
 
@@ -60,11 +62,10 @@ export default function Notes() {
       ) : (
         <div className="notes-grid">
           {filteredNotes.map((note) => (
-            <Link
+            <SpotlightCard
               key={note.slug}
-              to={`/notes/${note.slug}`}
-              className="glass-card"
-              style={{ display: "block" }}
+              onClick={() => navigate(`/notes/${note.slug}`)}
+              style={{ cursor: "pointer", display: "block" }}
             >
               <p className="home-card-date">{note.date}</p>
               <h3 className="home-card-title">{note.title}</h3>
@@ -76,7 +77,7 @@ export default function Notes() {
                   </span>
                 ))}
               </div>
-            </Link>
+            </SpotlightCard>
           ))}
         </div>
       )}

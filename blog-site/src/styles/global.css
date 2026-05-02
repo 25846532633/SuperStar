@@ -194,6 +194,42 @@ a:hover {
   background-size: 256px 256px;
 }
 
+/* ========================================
+   Layer 1a: CRT Scanline Overlay
+   ======================================== */
+
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ========================================
+   Layer 1b: Neon Pulse Keyframes
+   ======================================== */
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 40px currentColor;
+  }
+  50% {
+    text-shadow:
+      0 0 20px currentColor,
+      0 0 80px currentColor,
+      0 0 120px currentColor;
+  }
+}
+
 /* Grid overlay */
 .aurora-grid {
   position: fixed;
@@ -213,45 +249,23 @@ a:hover {
 
 .glass-card {
   position: relative;
+  overflow: hidden;
   background: var(--bg-card);
   backdrop-filter: blur(60px);
   -webkit-backdrop-filter: blur(60px);
-  border: 1px solid var(--border-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius);
   padding: 24px;
-  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
-}
-
-.glass-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: var(--radius);
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    var(--aurora-1),
-    var(--aurora-2),
-    var(--aurora-3),
-    var(--aurora-4),
-    var(--aurora-5),
-    var(--aurora-6)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity var(--transition);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.3s ease;
 }
 
 .glass-card:hover {
-  transform: translateY(-4px);
-  border-color: transparent;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-.glass-card:hover::before {
-  opacity: 1;
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.08);
+  transform: translateY(-2px);
 }
 
 /* ========================================
@@ -302,6 +316,7 @@ a:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: neonPulse 2s ease-in-out infinite alternate;
 }
 
 .navbar-links {
@@ -363,6 +378,7 @@ a:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: neonPulse 2s ease-in-out infinite alternate;
 }
 
 .home-subtitle {
@@ -389,6 +405,51 @@ a:hover {
 @keyframes pulse {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
+}
+
+/* ========================================
+   Terminal Boot: shake / scanline / iris
+   ======================================== */
+
+@keyframes terminalShakeLight {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 1px); }
+  20% { transform: translate(2px, -2px); }
+  30% { transform: translate(-1px, 2px); }
+  40% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, -2px); }
+  60% { transform: translate(1px, 2px); }
+  70% { transform: translate(-1px, -1px); }
+  80% { transform: translate(2px, 1px); }
+  90% { transform: translate(-2px, -1px); }
+}
+
+@keyframes terminalShakeHeavy {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-3px, 2px); }
+  20% { transform: translate(3px, -3px); }
+  30% { transform: translate(-2px, 3px); }
+  40% { transform: translate(3px, -2px); }
+  50% { transform: translate(-3px, -3px); }
+  60% { transform: translate(2px, 3px); }
+  70% { transform: translate(-2px, -2px); }
+  80% { transform: translate(3px, 2px); }
+  90% { transform: translate(-3px, -1px); }
+}
+
+@keyframes crtScanline {
+  0%   { top: 0; }
+  100% { top: 100%; }
+}
+
+@keyframes greenDotBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+
+@keyframes irisExpand {
+  0%   { clip-path: circle(0% at 50% 50%); }
+  100% { clip-path: circle(100% at 50% 50%); }
 }
 
 .home-section-title {

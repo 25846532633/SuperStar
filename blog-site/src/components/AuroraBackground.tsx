@@ -32,6 +32,7 @@ export default function AuroraBackground() {
       <div className="aurora-orb orb-5" />
       <div className="aurora-noise" />
       <div className="aurora-grid" />
+      <div className="scanline-overlay" />
     </div>
   );
 }
